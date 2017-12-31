@@ -1,5 +1,5 @@
-from lib.map import field_map
-from lib.error import InvalidUsage
+from rejira.lib.error import InvalidUsage
+
 
 class Issue:
 
@@ -14,7 +14,7 @@ class Issue:
                 else:
                     setattr(obj, value, json[key])
 
-    def create_object(self, json, fields=field_map):
+    def create_object(self, json, fields):
         for key, value in fields.items():
             if key is "dates":
                 self.handle_dates(json, fields)

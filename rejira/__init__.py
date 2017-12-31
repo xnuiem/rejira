@@ -1,5 +1,4 @@
-from lib.cache import Cache
-from lib.error import InvalidUsage
+from rejira.lib.cache import Cache
 
 
 class ReJIRA:
@@ -29,7 +28,7 @@ class ReJIRA:
         "all" is default
         """
         if self.config.cache_on is True:
-            from lib.datasource import DataSource
+            from rejira.lib import DataSource
             source = DataSource(self.config)
             if scope == "all":
                 source.flush_all()

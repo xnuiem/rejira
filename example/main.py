@@ -1,6 +1,5 @@
 import config
-
-from lib.rejira import ReJIRA
+from rejira import ReJIRA
 from pprint import pprint
 
 rj = ReJIRA(config)
