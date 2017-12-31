@@ -2,10 +2,10 @@ from setuptools import setup
 
 setup(
     name='rejira',
-    description='The funniest joke in the world',
-    url='http://github.com/storborg/funniest',
+    description='A look aside for JIRA using redis as the cache',
+    url='https://github.com/xnuiem/rejira',
     author='Xnuiem',
-    author_email='xnuiem@xmtek.net',
+    author_email='ryan.meinzer@xmtek.net',
     license='Apache2',
     version='0.1',
     packages=['rejira'],
