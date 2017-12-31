@@ -82,3 +82,8 @@ crashlytics-build.properties
 fabric.properties
 
 *.iml
+
+dist/*
+rejira.egg-info/*
+build/*
+

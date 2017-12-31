@@ -13,4 +13,5 @@ setup(
         'redis',
         'requests'
     ],
+    python_requires='>=3',
 )
