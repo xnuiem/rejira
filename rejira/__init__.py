@@ -3,9 +3,9 @@ from rejira.lib.cache import Cache
 
 class ReJIRA:
 
-    def __init__(self, config):
+    def __init__(self, config, field_map):
         self.config = config
-        self.cache = Cache(config)
+        self.cache = Cache(config, field_map)
 
     def get(self, key):
         """Fetches a single issue, returning it as a dict.
@@ -28,7 +28,7 @@ class ReJIRA:
         "all" is default
         """
         if self.config.cache_on is True:
-            from rejira.lib import DataSource
+            from rejira.lib.datasource import DataSource
             source = DataSource(self.config)
             if scope == "all":
                 source.flush_all()
