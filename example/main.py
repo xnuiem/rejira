@@ -10,6 +10,3 @@ pprint(vars(issue))
 results = rj.search("project = OM order by lastViewed DESC")
 for x in results:
     pprint(vars(x))
-
-
-

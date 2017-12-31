@@ -52,4 +52,3 @@ class Issue:
 
     def close(self):
         del self.config
-
