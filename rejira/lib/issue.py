@@ -22,7 +22,11 @@ class Issue:
             elif key is "comments":
                 self.handle_comments(json, fields)
             elif value is not None:
-                if isinstance(value, dict):
+                if "obj_list" in value:
+                    self.handle_list(json[value["inside"]][key], value, key)
+                elif "is_list" in value:
+                    self.handle_list(json[value["inside"]][key], value, key, True)
+                elif isinstance(value, dict):
                     if "sub" in value and value["sub"] is False:
                         if "value_field" in value:
                             v = json[value["inside"]][key][value["value_field"]]
@@ -42,6 +46,18 @@ class Issue:
                 setattr(self, key, json[key])
         self.close()
         return self
+
+    def handle_list(self, json, fields, obj_name, pure_list=False):
+        ret_list = []
+        for x in json:
+            if pure_list is True:
+                ret_list.append(x)
+            elif isinstance(x, dict):
+                for key, value in fields.items():
+                    if key in x:
+                        ret_list.append(x[key])
+
+        setattr(self, obj_name, ret_list)
 
     def handle_comments(self, json, fields):
         comments = []

@@ -65,20 +65,31 @@ field_map = {
         },
         "body": None,
         "created": "date"
+    },
+    "components": {
+        "inside": "fields",
+        "name": None,
+        "obj_list": True
+    },
+    "labels": {
+        "inside": "fields",
+        "name": None,
+        "is_list": True
     }
 
 
 
 
 
-    #components
+
     #custom fields
     #enviornment
     #fixversions
     #issuelinkes
-    #labels
+    
     #subtasks
     #versions
     #attachments
+    #sprint
 
 }

@@ -22,7 +22,7 @@ class Cache:
         return True
 
     def fetch_issue(self, key):
-        if self.data.exists(key) is True and self.config.cache_on is True:
+        if self.config.cache_on is True and self.data.exists(key) is True:
             req = json.loads(self.data.get(key).decode("utf-8"))
         else:
             request_url = self.jira_url + 'issue/' + key
@@ -47,7 +47,7 @@ class Cache:
     def fetch_query(self, query):
         issues = []
         hash_key = hashlib.md5(query.encode('utf-8')).hexdigest()
-        if self.data.exists(hash_key) is True and self.config.cache_on is True:
+        if self.config.cache_on is True and self.data.exists(hash_key) is True:
             req = json.loads(self.data.get(hash_key).decode("utf-8"))
             for x in req["issues"]:
                 issue = Issue(self.config).create_object(x, self.field_map)
