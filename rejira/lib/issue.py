@@ -1,4 +1,5 @@
 from rejira.lib.error import InvalidUsage
+from pprint import pprint
 
 
 class Issue:
@@ -18,6 +19,8 @@ class Issue:
         for key, value in fields.items():
             if key is "dates":
                 self.handle_dates(json, fields)
+            elif key is "comments":
+                self.handle_comments(json, fields)
             elif value is not None:
                 if isinstance(value, dict):
                     if "sub" in value and value["sub"] is False:
@@ -26,7 +29,6 @@ class Issue:
                         else:
                             v = json[value["inside"]][key]
                         setattr(self, key, v)
-                        pass
                     else:
                         setattr(self, key, lambda: None)
                         obj = getattr(self, key)
@@ -38,7 +40,28 @@ class Issue:
                     setattr(self, value, json[key])
             else:
                 setattr(self, key, json[key])
+        self.close()
         return self
+
+    def handle_comments(self, json, fields):
+        comments = []
+
+        for comment in json["fields"]["comment"]["comments"]:
+            comment_obj = lambda: None
+            for field_key, field_value in fields["comments"].items():
+                name = field_key
+                if isinstance(field_value, dict):
+                    setattr(comment_obj, field_key, lambda: None)
+                    sub_obj = getattr(comment_obj, field_key)
+                    if comment[field_key] is not None:
+                        self.find_sub_value(comment[field_key], field_value, sub_obj)
+                else:
+                    if field_value is not None:
+                        name = field_value
+                    setattr(comment_obj, name, comment[field_key])
+            comments.append(comment_obj)
+            del comment_obj
+        setattr(self, "comments", comments)
 
     def handle_dates(self, json, fields):
         setattr(self, "dates", lambda: None)

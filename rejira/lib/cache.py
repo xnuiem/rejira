@@ -4,6 +4,7 @@ from rejira.lib.issue import Issue
 from rejira.lib.error import InvalidUsage
 import json
 import hashlib
+from pprint import pprint
 
 
 class Cache:
@@ -13,6 +14,8 @@ class Cache:
         self.config = config
         self.session = Session(config).s
         self.field_map = field_map
+        self.jira_url = self.config.jira_options['server'] + 'rest/' + self.config.jira_options['rest_path'] + '/' + \
+                        self.config.jira_options['rest_api_version'] + self.config.jira_options['context_path']
 
     def expire_all(self):
         self.data.flush_all()
@@ -22,7 +25,7 @@ class Cache:
         if self.data.exists(key) is True and self.config.cache_on is True:
             req = json.loads(self.data.get(key).decode("utf-8"))
         else:
-            request_url = self.config.jira_options['server'] + self.config.jira_append_path + 'issue/' + key
+            request_url = self.jira_url + 'issue/' + key
             req = self.session.get(request_url)
             if req.status_code == 401:
                 raise InvalidUsage('Authentication to JIRA failed')
@@ -31,6 +34,10 @@ class Cache:
             elif req.status_code != 200:
                 raise InvalidUsage('JIRA Server returned an error: ' + req.status_code)
             req = req.json()
+
+            pprint(req)
+            #exit(1)
+
             if self.config.cache_on is True:
                 self.data.insert(key, json.dumps(req))
                 self.data.set_expire(key)
@@ -47,7 +54,7 @@ class Cache:
                 issues.append(issue)
 
         else:
-            request_url = self.config.jira_options['server'] + self.config.jira_append_path + 'search'
+            request_url = self.jira_url + 'search'
 
             data = {
                 "jql": query,
