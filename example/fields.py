@@ -17,7 +17,7 @@ field_map = {
         "inside": "fields",
         "sub": False
     },
-    "description":{
+    "description": {
         "inside": "fields",
         "sub": False
     },
@@ -79,22 +79,22 @@ field_map = {
     "sprint": {
         "inside": "fields",
         "field": "customfield_10010"
+    },
+    "custom": {
+        "inside": "fields",
+        "mapping": {
+            "10812": "team"
+        }
     }
 
+    # custom fields
+    # enviornment
+    # fixversions
+    # issuelinkes
 
-
-
-
-
-
-    #custom fields
-    #enviornment
-    #fixversions
-    #issuelinkes
-
-    #subtasks
-    #versions
-    #attachments
-    #sprint
+    # subtasks
+    # versions
+    # attachments
+    # sprint
 
 }

@@ -23,6 +23,8 @@ class Issue:
                 self.handle_comments(json, fields)
             elif key is "sprint":
                 self.handle_sprint(json, fields)
+            elif key is "custom":
+                self.handle_custom(json, fields)
             elif value is not None:
                 if "obj_list" in value:
                     self.handle_list(json[value["inside"]][key], value, key)
@@ -50,6 +52,9 @@ class Issue:
         return self
 
     def handle_sprint(self, json, fields):
+        pass
+
+    def handle_custom(self, json, fields):
         pass
 
     def handle_list(self, json, fields, obj_name, pure_list=False):

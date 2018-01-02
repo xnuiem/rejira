@@ -35,12 +35,11 @@ class Cache:
                 raise InvalidUsage('JIRA Server returned an error: ' + req.status_code)
             req = req.json()
 
-            pprint(req)
-            #exit(1)
-
             if self.config.cache_on is True:
                 self.data.insert(key, json.dumps(req))
                 self.data.set_expire(key)
+        pprint(req)
+
         issue = Issue(self.config).create_object(req, self.field_map)
         return issue
 
