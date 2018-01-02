@@ -75,7 +75,12 @@ field_map = {
         "inside": "fields",
         "name": None,
         "is_list": True
+    },
+    "sprint": {
+        "inside": "fields",
+        "field": "customfield_10010"
     }
+
 
 
 
@@ -86,7 +91,7 @@ field_map = {
     #enviornment
     #fixversions
     #issuelinkes
-    
+
     #subtasks
     #versions
     #attachments
