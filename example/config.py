@@ -1,8 +1,8 @@
 cache_host = 'localhost'
 cache_port = 6379
 cache_db = 0
-cache_on = True
-cache_expire = 3600  # Number of seconds to
+cache_on = False
+cache_expire = 3600  # Number of seconds until expire
 
 jira_options = {'async': False,
                 'rest_api_version': '2',
@@ -21,6 +21,5 @@ jira_options = {'async': False,
                 },
                 'resilient': True
                 }
-jira_append_path = 'rest/api/2/'
 jira_user = 'XXXX'
 jira_pass = 'XXXX'
