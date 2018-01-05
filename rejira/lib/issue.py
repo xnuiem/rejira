@@ -18,13 +18,13 @@ class Issue:
     def create_object(self, json, fields):
         for key, value in fields.items():
             if key is "dates":
-                self.handle_dates(json, fields)
+                self.handle_dates(json, fields[key])
             elif key is "comments":
-                self.handle_comments(json, fields)
+                self.handle_comments(json, fields[key])
             elif key is "sprint":
-                self.handle_sprint(json, fields)
+                self.handle_sprint(json, fields[key])
             elif key is "custom":
-                self.handle_custom(json, fields)
+                self.handle_custom(json, fields[key])
             elif value is not None:
                 if "obj_list" in value:
                     self.handle_list(json[value["inside"]][key], value, key)
@@ -52,10 +52,31 @@ class Issue:
         return self
 
     def handle_sprint(self, json, fields):
-        pass
+        sprint_field = issue.fields.customfield_10007[0].split('[')[1].split(']')[0].split(',')
+        sprint_dict = {}
+        for x in sprint_field:
+            a = x.split("=")
+            sprint_dict[a[0]] = a[1]
+
 
     def handle_custom(self, json, fields):
-        pass
+        #if all?
+        custom_obj = lambda: None
+        for key, value in fields["mapping"].items():
+            check = "customfield_" + key
+            if check in json[fields["inside"]]:
+                name = value
+                if value is None:
+                    name = key
+
+                if isinstance(json[fields["inside"]][check], list):
+                    setattr(custom_obj, name, json[fields["inside"]][check])
+                elif isinstance(json[fields["inside"]][check], dict):
+                    pass
+                else:
+                    pass
+
+        setattr(self, "custom", custom_obj)
 
     def handle_list(self, json, fields, obj_name, pure_list=False):
         ret_list = []
@@ -74,7 +95,7 @@ class Issue:
 
         for comment in json["fields"]["comment"]["comments"]:
             comment_obj = lambda: None
-            for field_key, field_value in fields["comments"].items():
+            for field_key, field_value in fields.items():
                 name = field_key
                 if isinstance(field_value, dict):
                     setattr(comment_obj, field_key, lambda: None)
@@ -92,7 +113,7 @@ class Issue:
     def handle_dates(self, json, fields):
         setattr(self, "dates", lambda: None)
         obj = getattr(self, "dates")
-        for key, value in fields["dates"].items():
+        for key, value in fields.items():
             v = json["fields"][key]
             if value is None:
                 setattr(obj, key, v)
