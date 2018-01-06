@@ -37,3 +37,11 @@ class ReJIRA:
             return True
         else:
             return False
+
+    def find_sprint(self):
+        """Looks in the custom fields for the field holding the sprint object so that it can be mapped in your fields
+        dict.
+
+        :return: Prints the field ID
+        """
+        pass

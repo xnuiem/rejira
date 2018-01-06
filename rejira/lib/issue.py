@@ -18,13 +18,13 @@ class Issue:
     def create_object(self, json, fields):
         for key, value in fields.items():
             if key is "dates":
-                self.handle_dates(json, fields[key])
+                self.handle_dates(json, value)
             elif key is "comments":
-                self.handle_comments(json, fields[key])
+                self.handle_comments(json, value)
             elif key is "sprint":
-                self.handle_sprint(json, fields[key])
+                self.handle_sprint(json[value["inside"]][value["field"]])
             elif key is "custom":
-                self.handle_custom(json, fields[key])
+                self.handle_custom(json, value)
             elif value is not None:
                 if "obj_list" in value:
                     self.handle_list(json[value["inside"]][key], value, key)
@@ -51,30 +51,51 @@ class Issue:
         self.close()
         return self
 
-    def handle_sprint(self, json, fields):
-        sprint_field = issue.fields.customfield_10007[0].split('[')[1].split(']')[0].split(',')
-        sprint_dict = {}
-        for x in sprint_field:
-            a = x.split("=")
-            sprint_dict[a[0]] = a[1]
+    def handle_sprint(self, sprint_field):
+        if isinstance(sprint_field, list):
+            if 'com.atlassian.greenhopper.service.sprint.Sprint' not in sprint_field[0]:
+                raise InvalidUsage("Sprint Field does not contain a Sprint Object")
+
+            sprint_obj = lambda: None
+            sprint_field = sprint_field[0].split('[')[1].split(']')[0].split(',')
+            for x in sprint_field:
+                a = x.split("=")
+                setattr(sprint_obj, a[0], a[1])
+            setattr(self, "sprint", sprint_obj)
+
+        else:
+            raise InvalidUsage("Sprint Field does not contain a list")
 
 
     def handle_custom(self, json, fields):
-        #if all?
         custom_obj = lambda: None
-        for key, value in fields["mapping"].items():
-            check = "customfield_" + key
-            if check in json[fields["inside"]]:
-                name = value
-                if value is None:
-                    name = key
+        if fields["all"] is True:
+            for key in json[fields["inside"]]:
+                value = json[fields["inside"]][key]
+                if "customfield_" in key:
+                    if isinstance(value, list):
+                        setattr(custom_obj, key, value)
+                    elif isinstance(value, dict):
+                        for key1, value1 in value:
+                            setattr(custom_obj, key1, value1)
+                    else:
+                        setattr(custom_obj, key, value)
 
-                if isinstance(json[fields["inside"]][check], list):
-                    setattr(custom_obj, name, json[fields["inside"]][check])
-                elif isinstance(json[fields["inside"]][check], dict):
-                    pass
-                else:
-                    pass
+        else:
+            for key, value in fields["mapping"].items():
+                check = "customfield_" + key
+                if check in json[fields["inside"]]:
+                    name = value
+                    if value is None:
+                        name = key
+
+                    if isinstance(json[fields["inside"]][check], list):
+                        setattr(custom_obj, name, json[fields["inside"]][check])
+                    elif isinstance(json[fields["inside"]][check], dict):
+                        for key1, value1 in json[fields["inside"]][check]:
+                            setattr(custom_obj, key1, value1)
+                    else:
+                        setattr(custom_obj, name, json[fields["inside"]][check])
 
         setattr(self, "custom", custom_obj)
 

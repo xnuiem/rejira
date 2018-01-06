@@ -82,19 +82,10 @@ field_map = {
     },
     "custom": {
         "inside": "fields",
-        "mapping": {
-            "10812": "team"
-        }
+        "all": True
+
     }
 
-    # custom fields
-    # enviornment
-    # fixversions
-    # issuelinkes
 
-    # subtasks
-    # versions
-    # attachments
-    # sprint
 
 }
