@@ -11,8 +11,18 @@ pip install rejira
 # Usage
 
 ## Quick Start
-
+```python
+import config, fields
+from rejira import ReJIRA
+ 
+rj = ReJIRA(config, fields.field_map)
+ 
+issue = rj.get("OM-1")
+print(issue.key) # OM-1
+```
 ## Fields
+
+
 
 ## Configuration Options
 
@@ -33,6 +43,8 @@ pip install rejira
 * attachments
 * sprint
 * make all results dicts?
+* full object plus fields
+* datetime breakout
 
 # Credits
 Xnuiem - Ryan C Meinzer - https://thescrum.ninja
