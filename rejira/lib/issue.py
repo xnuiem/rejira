@@ -1,4 +1,5 @@
 from rejira.lib.error import InvalidUsage
+import datetime
 from pprint import pprint
 
 
@@ -135,11 +136,16 @@ class Issue:
         setattr(self, "dates", lambda: None)
         obj = getattr(self, "dates")
         for key, value in fields.items():
+            name = key
+            if value is not None:
+                name = value
+
             v = json["fields"][key]
-            if value is None:
-                setattr(obj, key, v)
+            if v is None:
+                setattr(obj, name, v)
             else:
-                setattr(obj, value, v)
+                date_obj = datetime.datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f%z")
+                setattr(obj, name, date_obj)
 
     def close(self):
         del self.config

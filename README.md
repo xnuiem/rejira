@@ -44,7 +44,7 @@ print(issue.key) # OM-1
 * sprint
 * make all results dicts?
 * full object plus fields
-* datetime breakout
+
 
 # Credits
 Xnuiem - Ryan C Meinzer - https://thescrum.ninja
