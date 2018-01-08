@@ -39,6 +39,7 @@ print(issue.key) # OM-1
 * subtasks
 * attachments
 * full object plus fields
+* Ive overloaded the "name" directive in the JSON....
 
 
 # Credits
