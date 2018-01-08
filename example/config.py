@@ -1,7 +1,7 @@
 cache_host = 'localhost'
 cache_port = 6379
 cache_db = 0
-cache_on = True
+cache_on = False
 cache_expire = 3600  # Number of seconds until expire
 
 jira_options = {'async': False,
