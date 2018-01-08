@@ -84,6 +84,11 @@ field_map = {
         "inside": "fields",
         "all": True
 
+    },
+    "fixVersions": {
+        "inside": "fields",
+        "obj_list": True,
+        "name": None
     }
 
 

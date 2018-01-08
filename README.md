@@ -33,16 +33,11 @@ print(issue.key) # OM-1
 ## To Do
 * More error handling around the JQL.  Ensure if it is bad, pass back the exception with useful information
 * Documentation 
-* Linked Issues?
 * Map Raw
 * enviornment
-* fixversions
 * issuelinkes
 * subtasks
-* versions
 * attachments
-* sprint
-* make all results dicts?
 * full object plus fields
 
 
