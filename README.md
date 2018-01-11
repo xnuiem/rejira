@@ -30,17 +30,6 @@ print(issue.key) # OM-1
 
 
 
-## To Do
-* More error handling around the JQL.  Ensure if it is bad, pass back the exception with useful information
-* Documentation 
-* Map Raw
-* enviornment
-* issuelinkes
-* subtasks
-* attachments
-* full object plus fields
-* Ive overloaded the "name" directive in the JSON....
-
 
 # Credits
 Xnuiem - Ryan C Meinzer - https://thescrum.ninja

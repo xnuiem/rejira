@@ -38,7 +38,7 @@ class Cache:
             if self.config.cache_on is True:
                 self.data.insert(key, json.dumps(req))
                 self.data.set_expire(key)
-        pprint(req)
+        #pprint(req)
 
         issue = Issue(self.config).create_object(req, self.field_map)
         return issue
