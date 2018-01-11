@@ -5,8 +5,9 @@ from pprint import pprint
 
 class Issue:
 
-    def __init__(self, config):
+    def __init__(self, config, logger):
         self.config = config
+        self.logger = logger
 
     def find_sub_value(self, json, fields, obj):
         for key, value in fields["fields"].items():
@@ -16,7 +17,6 @@ class Issue:
                 setattr(obj, value, json[key])
 
     def create_object(self, json, fields):
-        pprint(json.keys())
         for key, value in fields.items():
             if key is "dates":
                 self.handle_dates(json, value)
@@ -58,6 +58,7 @@ class Issue:
         return self
 
     def handle_sprint(self, json):
+        self.logger.info('Adding Sprint to Issue')
         found_sprint = False
         for x in json:
 
@@ -73,7 +74,7 @@ class Issue:
 
                 setattr(self, "sprint", sprint_obj)
         if found_sprint is False:
-            raise InvalidUsage("No Sprint Object Found.  Is this a Kanban Project?")
+            raise InvalidUsage("No Sprint Object Found.  Is this a Kanban Project?", self.logger)
 
 
     def handle_custom(self, json, fields):

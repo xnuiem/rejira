@@ -1,6 +1,6 @@
 class InvalidUsage(Exception):
 
-    def __init__(self, message):
+    def __init__(self, message, logger):
         Exception.__init__(self)
-        print(message)
+        logger.error(message)
         exit(1)
