@@ -7,3 +7,4 @@ class Session:
         logger.info('Created JIRA Session')
         self.s = requests.Session()
         self.s.auth = (config.jira_user, config.jira_pass)
+        self.s.headers.update(config.jira_options["headers"])
