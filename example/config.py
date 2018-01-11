@@ -24,7 +24,6 @@ jira_lib = False  # Use the JIRA Library (https://github.com/pycontribs/jira)
 logging_level = "DEBUG"
 logging_file = ""
 
-
 map_fields = False
 map_raw = False
 
