@@ -47,12 +47,16 @@ class Issue:
                         if key not in json:
                             sub_json = json["fields"]
 
-                        obj = type(field_name, (), {})
+                        if len(value["fields"]) > 1:
+                            obj = type(field_name, (), {})
+                            if sub_json[key] is not None:
+                                self.find_sub_value(sub_json[key], value, obj)
+                            else:
+                                setattr(obj, key, None)
 
-                        if sub_json[key] is not None:
-                            self.find_sub_value(sub_json[key], value, obj)
                         else:
-                            setattr(obj, key, None)
+                            for x in value["fields"]:
+                                obj = sub_json[key][x]
 
                         setattr(self, field_name, obj)
                 else:

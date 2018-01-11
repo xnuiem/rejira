@@ -29,8 +29,7 @@ field_map = {
     "status": {
         "fields": {
             "name": None
-        },
-        "name": "real"
+        }
     },
     "project": {
         "fields": {
