@@ -32,6 +32,7 @@ class Issue:
                 elif "is_list" in value:
                     self.handle_list(json[key], value, key, True)
                 elif isinstance(value, dict):
+                    # I dont use this anymore.  Need to check for just one value.  Value field is gone now too
                     if "sub" in value and value["sub"] is False:
                         if "value_field" in value:
                             v = json[key][value["value_field"]]
@@ -39,21 +40,29 @@ class Issue:
                             v = json[key]
                         setattr(self, key, v)
                     else:
-                        setattr(self, key, type(key, (), {}))
-                        obj = getattr(self, key)
+                        field_name = key
+                        sub_json = json
+                        if "name" in value.keys() and value["name"] is not None:
+                            field_name = value["name"]
                         if key not in json:
                             sub_json = json["fields"]
-                        else:
-                            sub_json = json
+
+                        obj = type(field_name, (), {})
 
                         if sub_json[key] is not None:
                             self.find_sub_value(sub_json[key], value, obj)
                         else:
                             setattr(obj, key, None)
+
+                        setattr(self, field_name, obj)
                 else:
                     setattr(self, value, json[key])
             else:
-                setattr(self, key, json[key])
+                if key not in json:
+                    sub_json = json["fields"]
+                else:
+                    sub_json = json
+                setattr(self, key, sub_json[key])
         self.close()
         return self
 
@@ -161,3 +170,4 @@ class Issue:
 
     def close(self):
         del self.config
+        del self.logger
