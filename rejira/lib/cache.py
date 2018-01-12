@@ -43,7 +43,7 @@ class Cache:
                 self.logger.debug('Inserting record to cache: %s', key)
                 self.data.insert(key, json.dumps(req))
                 self.data.set_expire(key)
-        # pprint(req)
+        pprint(req)
 
         issue = Issue(self.config, self.logger).create_object(req, self.field_map)
         return issue
