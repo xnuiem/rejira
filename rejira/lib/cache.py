@@ -43,7 +43,6 @@ class Cache:
                 self.logger.debug('Inserting record to cache: %s', key)
                 self.data.insert(key, json.dumps(req))
                 self.data.set_expire(key)
-        pprint(req)
 
         issue = Issue(self.config, self.logger).create_object(req, self.field_map)
         return issue
@@ -64,7 +63,8 @@ class Cache:
 
             data = {
                 "jql": query,
-                "startAt": 0
+                "startAt": 0,
+                "fields": ['*all']
             }
             session = Session(self.config, self.logger).s
             req = session.post(request_url, '', data)
