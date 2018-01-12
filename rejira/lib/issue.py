@@ -59,7 +59,7 @@ class Issue:
 
                     setattr(self, field_name, obj)
                 else:
-                    setattr(self, value, json[key])
+                    setattr(self, field_name, sub_json[key])
             else:
                 setattr(self, key, sub_json[key])
         self.close()
@@ -101,6 +101,8 @@ class Issue:
             value = json["fields"][key]
             if "customfield_" in key:
                 id_of_custom = key[12:]
+                self.logger.debug('CustomID: %s', id_of_custom)
+                self.logger.debug('Custom Value: %s', value)
                 field_name = key
                 if id_of_custom in fields["fields"].keys():
                     set_custom = True
@@ -109,10 +111,13 @@ class Issue:
 
                 if set_custom is True:
                     if isinstance(value, list):
-                        setattr(custom_obj, field_name, value)  # this need to be tested!!!
+                        setattr(custom_obj, field_name, value)  # this need to be tested!!! REVIEW
                     elif isinstance(value, dict):
-                        for key1, value1 in value:
-                            setattr(custom_obj, key1, value1)
+                        sub_custom_obj = type("custom", (), {})
+                        # if not in mapping, map everything you find
+                        for key1, value1 in value.items():
+                            setattr(sub_custom_obj, key1, value1)
+                        setattr(custom_obj, field_name, sub_custom_obj)
                     else:
                         setattr(custom_obj, field_name, value)
 

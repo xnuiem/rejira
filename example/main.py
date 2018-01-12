@@ -4,9 +4,9 @@ from pprint import pprint
 
 rj = ReJIRA(config, fields.field_map)
 
-issue = rj.get("OM-1")
-pprint(vars(issue.dates))
+#issue = rj.get("OM-2")
+#pprint(vars(issue.custom.customfield_10006))
 
-#results = rj.search("project = OM order by lastViewed DESC")
-#for x in results:
-#    pprint(vars(x))
+results = rj.search("project = OM order by lastViewed DESC")
+for x in results:
+    pprint(vars(x))
