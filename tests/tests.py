@@ -1,0 +1,1 @@
+from unittest import mockimport rejira.lib.issuefrom example import configimport logging@mock.patch("rejira.lib.issue.Issue")def mock_simple_class(mock_class):    setattr(mock_class, "config", config)    print(mock_class.config.jira_pass)    mock_class.close()    print(mock_class.config.jira_pass)mock_simple_class()

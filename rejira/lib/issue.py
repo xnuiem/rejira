@@ -1,6 +1,5 @@
 from rejira.lib.error import InvalidUsage
 import datetime
-from pprint import pprint
 
 
 class Issue:
