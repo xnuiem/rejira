@@ -2,6 +2,7 @@ from rejira.lib.error import InvalidUsage
 import datetime
 from pprint import pprint
 
+
 class Issue:
 
     def __init__(self, config, logger):
@@ -111,10 +112,15 @@ class Issue:
 
                 if set_custom is True:
                     if isinstance(value, list):
-                        setattr(custom_obj, field_name, value)  # this need to be tested!!! REVIEW
+                        sub_list = []
+                        for x in value:
+                            if isinstance(x, dict):
+                                sub_list.append(self.handle_dict(x))
+                            else:
+                                sub_list = value
+                        setattr(custom_obj, field_name, sub_list)
                     elif isinstance(value, dict):
                         sub_custom_obj = type("custom", (), {})
-                        # if not in mapping, map everything you find
                         for key1, value1 in value.items():
                             setattr(sub_custom_obj, key1, value1)
                         setattr(custom_obj, field_name, sub_custom_obj)
@@ -123,9 +129,14 @@ class Issue:
 
         setattr(self, "custom", custom_obj)
 
-    def handle_dict(self, json, fields={}):
+    def handle_dict(self, json):
         self.logger.info('Handle Dict: %s', json)
-        pass
+        obj = type("custom_dict", (), {})
+        # if not in mapping, map everything you find
+        for key1, value1 in json.items():
+            setattr(obj, key1, value1)
+
+        return obj
 
     def handle_list(self, json, fields, field_name):
         self.logger.info('Handle List: %s', field_name)
