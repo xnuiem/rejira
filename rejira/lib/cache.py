@@ -43,7 +43,8 @@ class Cache:
                 self.logger.debug('Inserting record to cache: %s', key)
                 self.data.insert(key, json.dumps(req))
                 self.data.set_expire(key)
-        pprint(req)
+
+
         issue = Issue(self.config, self.logger).create_object(req, self.field_map)
         return issue
 
@@ -76,6 +77,7 @@ class Cache:
                 raise InvalidUsage('JIRA Server returned an error: ' + str(req.status_code), self.logger)
 
             req = req.json()
+
             for x in req["issues"]:
                 issue = Issue(self.config, self.logger).create_object(x, self.field_map)
                 issues.append(issue)
@@ -84,3 +86,8 @@ class Cache:
                 self.data.insert(hash_key, json.dumps(req))
                 self.data.set_expire(hash_key)
         return issues
+
+    def write_req_to_file(self, req):
+        with open("../tests/mock-query-1.txt", 'w') as file:
+            file.write(json.dumps(req))
+            file.close()
