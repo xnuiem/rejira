@@ -33,18 +33,18 @@ class Issue:
             self.logger.debug('Map: %s', sub_json)
 
             if key is "dates":
-                self.handle_dates(json, value)
+                setattr(self, "dates", self.handle_dates(json, value))
             elif key is "comments":
-                self.handle_comments(json, value)
+                setattr(self, "comments", self.handle_comments(json, value))
             elif key is "sprint" and value is True:
-                self.handle_sprint(json)
+                setattr(self, "sprint", self.handle_sprint(json))
             elif key is "custom":
-                self.handle_custom(json, value)
+                setattr(self, "custom", self.handle_custom(json, value))
             elif value is not None:
                 if isinstance(sub_json[key], str):
                     pass
                 elif isinstance(sub_json[key], list):
-                    self.handle_list(sub_json[key], value, field_name)
+                    setattr(self, field_name, self.handle_list(sub_json[key], value))
                 elif isinstance(sub_json[key], dict):
                     obj = type(field_name, (), {})
                     if len(value["fields"]) > 1:
@@ -67,22 +67,21 @@ class Issue:
 
     def handle_sprint(self, json):
         self.logger.info('Handle Sprint')
-        found_sprint = False
         for x in json:
 
             if isinstance(json[x], list) \
                     and len(json[x]) > 0 \
                     and 'com.atlassian.greenhopper.service.sprint.Sprint' in json[x][0]:
-                found_sprint = True
+
                 sprint_obj = type("sprint", (), {})
                 sprint_field = json[x][0].split('[')[1].split(']')[0].split(',')
                 for s in sprint_field:
                     a = s.split("=")
                     setattr(sprint_obj, a[0], a[1])
 
-                setattr(self, "sprint", sprint_obj)
-        if found_sprint is False:
-            raise InvalidUsage("No Sprint Object Found.  Is this a Kanban Project?", self.logger)
+                return sprint_obj
+
+        raise InvalidUsage("No Sprint Object Found.  Is this a Kanban Project?", self.logger)
 
     def handle_custom(self, json, fields):
         custom_obj = type("custom", (), {})
@@ -126,7 +125,7 @@ class Issue:
                     else:
                         setattr(custom_obj, field_name, value)
 
-        setattr(self, "custom", custom_obj)
+        return custom_obj
 
     def handle_dict(self, json):
         self.logger.info('Handle Dict: %s', json)
@@ -137,8 +136,8 @@ class Issue:
 
         return obj
 
-    def handle_list(self, json, fields, field_name):
-        self.logger.info('Handle List: %s', field_name)
+    def handle_list(self, json, fields):
+        self.logger.info('Handle List: %s')
 
         ret_list = []
 
@@ -146,7 +145,7 @@ class Issue:
         for x in json:
             if isinstance(x, dict):  # list of dicts
                 if len(fields["fields"]) > 1:
-                    sub_obj = type(field_name, (), {})
+                    sub_obj = type("list", (), {})
                     for y in fields["fields"]:
                         setattr(sub_obj, y, x[y])
                     ret_list.append(sub_obj)
@@ -157,7 +156,7 @@ class Issue:
                 pass
             elif isinstance(x, str):  # list of strings
                 pass
-        setattr(self, field_name, ret_list)
+        return ret_list
 
     def handle_comments(self, json, fields):
         self.logger.info('Handle Comments')
@@ -181,7 +180,7 @@ class Issue:
 
             comments.append(comment_obj)
             del comment_obj
-        setattr(self, "comments", comments)
+        return comments
 
     def handle_dates(self, json, fields):
         self.logger.info('Handle Dates')
@@ -197,7 +196,7 @@ class Issue:
             else:
                 date_obj = datetime.datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f%z")
                 setattr(obj, name, date_obj)
-        setattr(self, "dates", obj)
+        return obj
 
     def close(self):
         self.logger.debug('Closing')
