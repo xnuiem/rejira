@@ -38,6 +38,7 @@ class Cache:
             elif req.status_code != 200:
                 raise InvalidUsage('JIRA Server returned an error: ' + str(req.status_code), self.logger)
             req = req.json()
+            self.write_req_to_file(req)
 
             if self.config.cache_on is True:
                 self.logger.debug('Inserting record to cache: %s', key)
@@ -77,7 +78,7 @@ class Cache:
                 raise InvalidUsage('JIRA Server returned an error: ' + str(req.status_code), self.logger)
 
             req = req.json()
-
+            self.write_req_to_file(req)
             for x in req["issues"]:
                 issue = Issue(self.config, self.logger).create_object(x, self.field_map)
                 issues.append(issue)
@@ -88,6 +89,8 @@ class Cache:
         return issues
 
     def write_req_to_file(self, req):
-        with open("../tests/mock-query-1.txt", 'w') as file:
-            file.write(json.dumps(req))
-            file.close()
+        if self.config.create_test_file is True:
+            self.logger.debug('Writing to File')
+            with open("../tests/mock-req-1.txt", 'w') as file:
+                file.write(json.dumps(req))
+                file.close()

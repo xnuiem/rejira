@@ -24,7 +24,8 @@ class Issue:
             self.logger.debug("Key/Field Name: %s", field_name)
             self.logger.debug("JSON: %s", sub_json)
             self.logger.debug("Value: %s", value)
-            if value is not None and "name" in value.keys() and value["name"] is not None:
+
+            if value is not None and value is not True and "name" in value.keys() and value["name"] is not None:
                 field_name = value["name"]
             if key not in json:
                 sub_json = json["fields"]
@@ -37,7 +38,7 @@ class Issue:
             elif key is "comments":
                 setattr(self, "comments", self.handle_comments(json, value))
             elif key is "sprint" and value is True:
-                setattr(self, "sprint", self.handle_sprint(json))
+                setattr(self, "sprint", self.handle_sprint(json["fields"]))
             elif key is "custom":
                 setattr(self, "custom", self.handle_custom(json, value))
             elif value is not None:
