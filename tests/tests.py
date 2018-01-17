@@ -1,1 +1,1 @@
-import unittestimport rejira.lib.issuefrom example import configimport logging# test issue.close() firstclass ReJIRATest(unittest.TestCase):    def test(self):        pass
+import unittestimport rejira.lib.issuefrom example import configimport logging# test issue.close() firstclass ReJIRATest(unittest.TestCase):    def __init__(self):        print("INIT")    def test(self):        print("HERE")
