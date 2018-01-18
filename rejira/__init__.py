@@ -71,7 +71,7 @@ class ReJIRA:
         """
         if self.config.cache_on is True:
             from rejira.lib.datasource import DataSource
-            source = DataSource(self.config)
+            source = DataSource(self.config, self.logger)
             if scope == "all":
                 self.logger.info('Flushing All Keys')
                 source.flush_all()
