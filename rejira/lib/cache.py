@@ -4,7 +4,7 @@ from rejira.lib.issue import Issue
 from rejira.lib.error import InvalidUsage
 import json
 import hashlib
-from pprint import pprint
+
 
 
 class Cache:
@@ -52,7 +52,7 @@ class Cache:
 
     def fetch_query(self, query):
         issues = []
-        hash_key = hashlib.md5(query.encode('utf-8')).hexdigest()
+        hash_key = hashlib.sha2(query.encode('utf-8')).hexdigest()
         if self.config.cache_on is True and self.data.exists(hash_key) is True:
             self.logger.debug('Fetching Query (%s) from Cache: (%s)', hash_key, query)
             req = json.loads(self.data.get(hash_key).decode("utf-8"))

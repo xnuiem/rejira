@@ -8,7 +8,8 @@ class Issue:
         self.config = config
         self.logger = logger
 
-    def find_sub_value(self, json, fields, obj):
+    @staticmethod
+    def find_sub_value(json, fields, obj):
         for key, value in fields["fields"].items():
             if value is None:
                 setattr(obj, key, json[key])
