@@ -41,7 +41,7 @@ class ReJIRA:
         self.config.jira_user = os.getenv('REJIRA_JIRA_USER', '')
         self.config.jira_pass = os.getenv('REJIRA_JIRA_PASS', '')
         self.config.jira_options["server"] = os.getenv('REJIRA_JIRA_SERVER', '')
-        self.config.logging_level = os.getenv('REJIRA_LOGGING_LEVEL', 'DEBUG')
+        self.config.logging_level = os.getenv('REJIRA_LOGGING_LEVEL', 'WARN')
         self.config.logging_file = os.getenv('REJIRA_LOGGING_FILE', '')
 
 
