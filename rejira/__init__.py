@@ -33,6 +33,10 @@ class ReJIRA:
         self.cache = Cache(self.config, self.logger, field_map)
 
     def setup_config(self):
+        """
+        Populates the config object with environment variables
+        :return: None
+        """
         self.config.cache_host = os.getenv('REJIRA_CACHE_HOST', 'localhost')
         self.config.cache_port = os.getenv('REJIRA_CACHE_PORT', 6379)
         self.config.cache_db = os.getenv('REJIRA_CACHE_DB', 0)

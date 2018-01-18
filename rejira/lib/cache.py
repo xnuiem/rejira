@@ -38,6 +38,7 @@ class Cache:
             elif req.status_code != 200:
                 raise InvalidUsage('JIRA Server returned an error: ' + str(req.status_code), self.logger)
             req = req.json()
+
             self.write_req_to_file(req)
 
             if self.config.cache_on is True:
