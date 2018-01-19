@@ -83,7 +83,7 @@ class Issue:
 
                 return sprint_obj
 
-        raise InvalidUsage("No Sprint Object Found.  Is this a Kanban Project?", self.logger)
+        return None
 
     def handle_custom(self, json, fields):
         custom_obj = type("custom", (), {})

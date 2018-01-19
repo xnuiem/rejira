@@ -1,6 +1,8 @@
 import logging
 import os
 
+from pprint import pprint
+
 from rejira.lib.cache import Cache
 
 class ReJIRA:
@@ -40,7 +42,7 @@ class ReJIRA:
         self.config.cache_host = os.getenv('REJIRA_CACHE_HOST', 'localhost')
         self.config.cache_port = os.getenv('REJIRA_CACHE_PORT', 6379)
         self.config.cache_db = os.getenv('REJIRA_CACHE_DB', 0)
-        self.config.cache_on = os.getenv('REJIRA_CACHE_ON', True)
+        self.config.cache_on = str_to_bool(os.getenv('REJIRA_CACHE_ON', True))
         self.config.cache_expire = os.getenv('REJIRA_CACHE_EXPIRE', 3600)
         self.config.jira_user = os.getenv('REJIRA_JIRA_USER', '')
         self.config.jira_pass = os.getenv('REJIRA_JIRA_PASS', '')
@@ -48,12 +50,18 @@ class ReJIRA:
         self.config.logging_level = os.getenv('REJIRA_LOGGING_LEVEL', 'WARN')
         self.config.logging_file = os.getenv('REJIRA_LOGGING_FILE', '')
 
+    def close_handler(self):
+        for handler in self.logger.handlers:
+            handler.close()
+            self.logger.removeHandler(handler)
+
 
     def get(self, key):
         """Fetches a single issue, returning it as a dict.
         key should be the key, not ID, of the issue to return
         """
         issue = self.cache.fetch_issue(key)
+        self.close_handler()
         return issue
 
     def search(self, query):
@@ -81,3 +89,12 @@ class ReJIRA:
             return True
         else:
             return False
+
+
+def str_to_bool(s):
+    if s == 'True':
+        return True
+    elif s == 'False':
+        return False
+    else:
+        raise ValueError
