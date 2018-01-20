@@ -1,5 +1,5 @@
-from rejira.lib.error import InvalidUsage
 import datetime
+from rejira.lib.error import InvalidUsage
 
 
 class Issue:
@@ -203,3 +203,6 @@ class Issue:
         self.logger.debug('Closing')
         del self.config
         del self.logger
+
+    def raise_exception(self):
+        raise InvalidUsage('Error', self.logger)
