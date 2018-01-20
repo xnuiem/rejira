@@ -12,7 +12,7 @@ from rejira import ReJIRA
 
 rj = ReJIRA(config, fields.field_map)
 
-issue = rj.get("OM-1")
+issue = rj.get("RJTEST-4")
 pprint(vars(issue))
 
 #results = rj.search("project = OM order by lastViewed DESC")

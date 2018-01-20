@@ -18,3 +18,17 @@ class CustomAssertions:
             pass
         else:
             raise AssertionError("Not a List")
+
+    @staticmethod
+    def assertIsInList(needle, haystack):
+        if needle in haystack:
+            pass
+        else:
+            raise AssertionError(needle + " not in list " + str(haystack))
+
+    @staticmethod
+    def assertIsObject(obj):
+        if isinstance(obj, type):
+            pass
+        else:
+            raise AssertionError(str(obj) + " is not an object")

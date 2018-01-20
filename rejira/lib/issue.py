@@ -119,7 +119,7 @@ class Issue:
                             else:
                                 sub_list = value
                         setattr(custom_obj, field_name, sub_list)
-                    elif isinstance(value, dict):
+                    elif isinstance(value, dict): # not sure if this ever happens
                         sub_custom_obj = type("custom", (), {})
                         for key1, value1 in value.items():
                             setattr(sub_custom_obj, key1, value1)
@@ -132,14 +132,13 @@ class Issue:
     def handle_dict(self, json):
         self.logger.info('Handle Dict: %s', json)
         obj = type("custom_dict", (), {})
-        # if not in mapping, map everything you find
         for key1, value1 in json.items():
             setattr(obj, key1, value1)
-
         return obj
 
     def handle_list(self, json, fields):
-        self.logger.info('Handle List: %s')
+
+        self.logger.info('Handle List: %s', fields )
 
         ret_list = []
 
@@ -154,10 +153,10 @@ class Issue:
                 else:
                     for y in fields["fields"]:
                         ret_list.append(x[y])
-            elif isinstance(x, list):  # list of lists
-                pass
-            elif isinstance(x, str):  # list of strings
-                pass
+            # elif isinstance(x, list):  # list of lists
+            #    pass
+            # elif isinstance(x, str):  # list of strings
+            #    pass
         return ret_list
 
     def handle_comments(self, json, fields):
