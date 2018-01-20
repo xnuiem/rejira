@@ -69,6 +69,7 @@ class ReJIRA:
         query should be properly formatted JQL
         """
         results = self.cache.fetch_query(query)
+        self.close_handler()
         return results
 
     def expire(self, scope="all"):
@@ -86,8 +87,10 @@ class ReJIRA:
             else:
                 self.logger.info('Deleting: %s', scope)
                 source.delete(scope)
+            self.close_handler()
             return True
         else:
+            self.close_handler()
             return False
 
 
