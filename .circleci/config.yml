@@ -41,7 +41,7 @@ jobs:
             . venv/bin/activate
             mkdir test-reports/
             cd tests && python tests.py
-            cp reports/*.xml ../test_reports
+            cp reports/*.xml ../test-reports
             
 
       - run:
@@ -61,5 +61,4 @@ jobs:
           destination: tr1
 
       - store_test_results:
-          path: test-reports/      
-
+          path: test-reports/   
