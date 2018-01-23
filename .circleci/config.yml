@@ -39,9 +39,9 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            # mkdir -p ${TEST_REPORTS}
+            mkdir test-reports/
             cd tests && python tests.py
-            # cp reports/*.xml ${TEST_REPORTS}
+            cp reports/*.xml ../test-reports
             
 
       - run:
@@ -59,6 +59,7 @@ jobs:
       - store_artifacts:
           path: test-reports/
           destination: tr1
+
       - store_test_results:
           path: test-reports/      
 
