@@ -2,5 +2,5 @@ redis
 requests
 coverage
 ddt
-html-testRunner
+xmlrunner
 -e git+https://github.com/codacy/python-codacy-coverage.git#egg=python-codacy-coverage
