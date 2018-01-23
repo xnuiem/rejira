@@ -11,9 +11,6 @@ jobs:
       - image: circleci/python:3.5.3
       - image: redis:2.8.19
 
-    environment:
-      TEST_REPORTS: /tmp/test-reports
-
     working_directory: ~/my-project
     
     steps:
@@ -42,9 +39,9 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            mkdir -p ${TEST_REPORTS}
+            # mkdir -p ${TEST_REPORTS}
             cd tests && python tests.py
-            cp reports/*.xml ${TEST_REPORTS}
+            # cp reports/*.xml ${TEST_REPORTS}
             
 
       - run:
@@ -59,7 +56,9 @@ jobs:
             . venv/bin/activate
             cd tests && coverage xml && python-codacy-coverage -r coverage.xml
 
-      # Upload test results
+      - store_artifacts:
+          path: test-reports/
+          destination: tr1
       - store_test_results:
-          path: ${TEST_REPORTS}
+          path: test-reports/      
 
