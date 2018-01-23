@@ -4,7 +4,7 @@ import logging
 import sys
 import inspect
 import os
-import HtmlTestRunner
+import xmlrunner
 from ddt import ddt, data
 from customassertions import CustomAssertions
 from mockFields import field_map
@@ -75,7 +75,9 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
         if self.config.logging_file:
             handler = logging.FileHandler(self.config.logging_file)
             handler.setLevel(logging.INFO)
-            formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', "%Y-%m-%d %H:%M:%S")
+            formatter = logging.Formatter(
+                '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                "%Y-%m-%d %H:%M:%S")
             handler.setFormatter(formatter)
             logger.addHandler(handler)
 
@@ -112,31 +114,40 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
     @data('mock-req-1.txt')
     def test_issue_handle_simple_list(self, file_name):
         req = self.get_req(file_name)
-        ret_list = self.create_issue().handle_list(req["fields"]["components"], {'fields': {'name': None}})
+        ret_list = self.create_issue().handle_list(req["fields"]["components"],
+                                                   {'fields': {'name': None}})
         self.assertIsInList('comp1', ret_list)
 
     @data('mock-req-1.txt')
     def test_issue_handle_complex_list_is_list(self, file_name):
         req = self.get_req(file_name)
-        ret_list = self.create_issue().handle_list(req["fields"]["components"], {'fields': {'name': None, 'id': None}})
+        ret_list = self.create_issue().handle_list(req["fields"]["components"],
+                                                   {'fields': {'name': None,
+                                                               'id': None}})
         self.assertIsList(ret_list)
 
     @data('mock-req-1.txt')
     def test_issue_handle_complex_list_is_list_of_objects(self, file_name):
         req = self.get_req(file_name)
-        ret_list = self.create_issue().handle_list(req["fields"]["components"], {'fields': {'name': None, 'id': None}})
+        ret_list = self.create_issue().handle_list(req["fields"]["components"],
+                                                   {'fields': {'name': None,
+                                                               'id': None}})
         self.assertIsObject(ret_list[0])
 
     @data('mock-req-1.txt')
     def test_issue_handle_complex_list_attr(self, file_name):
         req = self.get_req(file_name)
-        ret_list = self.create_issue().handle_list(req["fields"]["components"], {'fields': {'name': None, 'id': None}})
+        ret_list = self.create_issue().handle_list(req["fields"]["components"],
+                                                   {'fields': {'name': None,
+                                                               'id': None}})
         self.assertAttrExists(ret_list[0], 'name')
 
     @data('mock-req-1.txt')
     def test_issue_handle_complex_list_attr_value(self, file_name):
         req = self.get_req(file_name)
-        ret_list = self.create_issue().handle_list(req["fields"]["components"], {'fields': {'name': None, 'id': None}})
+        ret_list = self.create_issue().handle_list(req["fields"]["components"],
+                                                   {'fields': {'name': None,
+                                                               'id': None}})
         self.assertEqual(ret_list[0].name, 'comp1')
 
     @data('mock-req-1.txt')
@@ -202,25 +213,29 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
     @data('mock-req-1.txt')
     def test_issue_handle_comments_number_of_comments(self, file_name):
         req = self.get_req(file_name)
-        comments = self.create_issue().handle_comments(req, field_map["comments"])
+        comments = self.create_issue().handle_comments(req,
+                                                       field_map["comments"])
         self.assertEqual(len(comments), 2)
 
     @data('mock-req-1.txt')
     def test_issue_handle_comments_body_content(self, file_name):
         req = self.get_req(file_name)
-        comments = self.create_issue().handle_comments(req, field_map["comments"])
+        comments = self.create_issue().handle_comments(req,
+                                                       field_map["comments"])
         self.assertEqual(comments[0].body, 'Comment 1')
 
     @data('mock-req-1.txt')
     def test_issue_handle_comments_updated_not_exists(self, file_name):
         req = self.get_req(file_name)
-        comments = self.create_issue().handle_comments(req, field_map["comments"])
+        comments = self.create_issue().handle_comments(req,
+                                                       field_map["comments"])
         self.assertAttrNotExists(comments[0], 'updated')
 
     @data('mock-req-1.txt')
     def test_issue_handle_comments_author_display_name(self, file_name):
         req = self.get_req(file_name)
-        comments = self.create_issue().handle_comments(req, field_map["comments"])
+        comments = self.create_issue().handle_comments(req,
+                                                       field_map["comments"])
         self.assertEqual(comments[0].author.displayName, 'Ryan Meinzer')
 
     @data('mock-req-1.txt', 'mock-req-2.txt', 'mock-req-3.txt')
@@ -240,34 +255,37 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
     @data('mock-query-1.txt')
     def test_cache_create_issue_list_returns_3(self, file_name):
         req = self.get_req(file_name)
-        issues = Cache(self.config, self.logging, field_map).create_issue_list(req)
+        issues = Cache(self.config, self.logging, field_map).create_issue_list(
+            req)
         self.assertEqual(len(issues), 3)
 
     @data('mock-query-1.txt')
     def test_cache_create_issue_list_3rd_issue_no_sprint(self, file_name):
         req = self.get_req(file_name)
-        issues = Cache(self.config, self.logging, field_map).create_issue_list(req)
+        issues = Cache(self.config, self.logging, field_map).create_issue_list(
+            req)
         self.assertIsNone(issues[2].sprint)
 
     @data('mock-query-1.txt')
     def test_cache_create_issue_list_2nd_issue_sprint(self, file_name):
         req = self.get_req(file_name)
-        issues = Cache(self.config, self.logging, field_map).create_issue_list(req)
+        issues = Cache(self.config, self.logging, field_map).create_issue_list(
+            req)
         self.assertEqual(issues[1].sprint.name, 'OM Sprint 1')
 
     @data('mock-query-1.txt')
-    def test_cache_create_issue_list_comment_author_display_name(self, file_name):
+    def test_cache_create_issue_list_comment_author_display_name(self,
+                                                                 file_name):
         req = self.get_req(file_name)
-        issues = Cache(self.config, self.logging, field_map).create_issue_list(req)
-        self.assertEqual(issues[1].comments[1].author.displayName, 'Ryan Meinzer')
+        issues = Cache(self.config, self.logging, field_map).create_issue_list(
+            req)
+        self.assertEqual(issues[1].comments[1].author.displayName,
+                         'Ryan Meinzer')
 
     def test_error_invalid_usage(self):
         with self.assertRaises(InvalidUsage):
             Issue(self.config, self.logging).raise_exception()
 
 
-
-
-
 if __name__ == '__main__':
-    unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='', report_title='ReJIRA Test Report', ))
+    unittest.main(testRunner=xmlrunner.XMLTestRunner(output='reports'))
