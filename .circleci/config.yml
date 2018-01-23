@@ -48,7 +48,7 @@ jobs:
           command: |
             . venv/bin/activate
             cd tests && python tests.py
-            cp reports/*.html ${TEST_REPORTS}
+            cp reports/*.xml ${TEST_REPORTS}
             
 
       - run:
