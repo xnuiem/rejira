@@ -42,12 +42,14 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
-
+          
       - run:
           name: run tests
           command: |
             . venv/bin/activate
             cd tests && python tests.py
+            cp reports/*.html ${TEST_REPORTS}
+            
 
       - run:
           name: run coverage
