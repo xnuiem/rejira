@@ -280,7 +280,7 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
         issues = Cache(self.config, self.logging, field_map).create_issue_list(
             req)
         self.assertEqual(issues[1].comments[1].author.displayName,
-                         'Ryan Meinzer')
+                         'Ryan Meinzer1')
 
     def test_error_invalid_usage(self):
         with self.assertRaises(InvalidUsage):
