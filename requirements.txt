@@ -1,1 +1,6 @@
-redisrequestscoverageddt-e git+https://github.com/codacy/python-codacy-coverage.git#egg=python-codacy-coverage
+redis
+requests
+coverage
+ddt
+html-testRunner
+-e git+https://github.com/codacy/python-codacy-coverage.git#egg=python-codacy-coverage
