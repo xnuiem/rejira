@@ -42,6 +42,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
+            mkdir -p ${TEST_REPORTS}
             cd tests && python tests.py
             cp reports/*.xml ${TEST_REPORTS}
             
