@@ -40,7 +40,8 @@ jobs:
           command: |
             . venv/bin/activate
             mkdir test-reports/
-            cd tests && python --junitxml results.xml tests.py
+            cd tests
+            py.test --junitxml results.xml tests.py
             cp results.xml ../test-reports
             
 
