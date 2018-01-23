@@ -1,1 +1,72 @@
-# Python CircleCI 2.0 configuration file## Check https://circleci.com/docs/2.0/language-python/ for more details#version: 2jobs:  build:    docker:      # specify the version you desire here      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`      - image: circleci/python:3.5.3      - image: redis:2.8.19      # Specify service dependencies here if necessary      # CircleCI maintains a library of pre-built images      # documented at https://circleci.com/docs/2.0/circleci-images/      # - image: circleci/postgres:9.4    working_directory: ~/repo    environment:      TEST_REPORTS: /tmp/test-reports    steps:      - checkout      # Download and cache dependencies      - restore_cache:          keys:          - v1-dependencies-{{ checksum "requirements.txt" }}          # fallback to using the latest cache if no exact match is found          - v1-dependencies-      - run:          name: install dependencies          command: |            python3 -m venv venv            . venv/bin/activate            pip install -r requirements.txt      - save_cache:          paths:            - ./venv          key: v1-dependencies-{{ checksum "requirements.txt" }}      - run:          name: run tests          command: |            . venv/bin/activate            cd tests && python tests.py      - run:          name: run coverage          command: |            . venv/bin/activate            cd tests && coverage run tests.py      - run:          name: upload coverage to codacy          command: |            . venv/bin/activate            cd tests && coverage xml && python-codacy-coverage -r coverage.xml      - store_artifacts:          path: /tmp/test-reports          destination: build      - store_test_results:          path: /tmp/test-reports
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
+      - image: circleci/python:3.5.3
+      - image: redis:2.8.19
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    environment:
+      TEST_REPORTS: /tmp/test-reports
+
+    working_directory: ~/my-project
+    
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "requirements.txt" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+      - run:
+          name: run tests
+          command: |
+            . venv/bin/activate
+            cd tests && python tests.py
+
+      - run:
+          name: run coverage
+          command: |
+            . venv/bin/activate
+            cd tests && coverage run tests.py
+
+      - run:
+          name: upload coverage to codacy
+          command: |
+            . venv/bin/activate
+            cd tests && coverage xml && python-codacy-coverage -r coverage.xml
+
+      # Save artifacts
+      - store_artifacts:
+          path: /tmp/artifacts
+          destination: build
+
+      # Upload test results
+      - store_test_results:
+          path: /tmp/test-reports
+
