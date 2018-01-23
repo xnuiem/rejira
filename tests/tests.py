@@ -4,6 +4,7 @@ import logging
 import sys
 import inspect
 import os
+import xmlrunner
 from ddt import ddt, data
 from customassertions import CustomAssertions
 from mockFields import field_map
@@ -287,4 +288,4 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(testRunner=xmlrunner.XMLTestRunner(output='reports'))
