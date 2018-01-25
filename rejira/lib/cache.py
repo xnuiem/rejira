@@ -71,6 +71,7 @@ class Cache:
             raise InvalidUsage('JIRA Server returned an error: ' + str(req.status_code), self.logger)
 
         request_json = req.json()
+        session.close()
         self.write_to_cache(key, request_json)
 
         return request_json
