@@ -31,4 +31,4 @@ class DataSource:
         return self.source.get(key)
 
     def search(self, term):
-        return self.source.keys(term)
+        return self.source.keys('*' + term + '*')
