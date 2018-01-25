@@ -49,6 +49,14 @@ class ReJIRA:
         self.config.jira_options["server"] = os.getenv('REJIRA_JIRA_SERVER', '')
         self.config.logging_level = os.getenv('REJIRA_LOGGING_LEVEL', 'WARN')
         self.config.logging_file = os.getenv('REJIRA_LOGGING_FILE', '')
+        http_proxy = os.getenv('REJIRA_HTTP_PROXY', None)
+        https_proxy = os.getenv('REJIRA_HTTPS_PROXY', None)
+
+        if http_proxy is not None:
+            self.config.proxies.append(http_proxy)
+
+        if https_proxy is not None:
+            self.config.proxies.append(https_proxy)
 
     def close_handler(self):
         for handler in self.logger.handlers:
