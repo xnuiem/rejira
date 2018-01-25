@@ -42,7 +42,15 @@ jobs:
             mkdir test-reports/
             cd tests && python tests.py
             cp reports/*.xml ../test-reports
-            
+            rm -rf reports/*.xml
+     
+      - run:
+          name: run integration tests
+          command: |
+            . venv/bin/activate
+            mkdir test-reports/
+            cd tests && python integration.py
+            cp reports/*.xml ../test-reports            
 
       - run:
           name: run coverage
