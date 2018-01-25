@@ -17,3 +17,4 @@ map_raw = False
 
 create_test_file = False
 
+proxies = {}
