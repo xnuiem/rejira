@@ -62,7 +62,8 @@ class Cache:
         else:
             request_url = self.jira_url + 'issue/' + key
             req = session.get(request_url)
-
+            
+        session.close()
         if req.status_code == 401:
             raise InvalidUsage('Authentication to JIRA failed', self.logger)
         elif req.status_code == 502:
@@ -71,9 +72,7 @@ class Cache:
             raise InvalidUsage('JIRA Server returned an error: ' + str(req.status_code), self.logger)
 
         request_json = req.json()
-        session.close()
         self.write_to_cache(key, request_json)
-
         return request_json
 
     def write_to_cache(self, key, value):
