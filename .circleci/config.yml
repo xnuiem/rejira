@@ -48,7 +48,6 @@ jobs:
           name: run integration tests
           command: |
             . venv/bin/activate
-            mkdir test-reports/
             cd tests && python integration.py
             cp reports/*.xml ../test-reports            
 
