@@ -48,7 +48,7 @@ jobs:
           name: run integration tests
           command: |
             . venv/bin/activate
-            cd tests && python integration.py
+            cd tests && python integrationtests.py
             cp reports/*.xml ../test-reports            
 
       - run:
