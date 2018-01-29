@@ -31,7 +31,8 @@ for issue in issues:
 ```
 
 ## Fields
-The structure of the issue objects is set by the field configuration.
+The structure of the issue objects is set by the field configuration.  This is basically a large dictionary that lets 
+reJIRA know how to structure your issue objects.
 
 
 
