@@ -120,17 +120,54 @@ For proxies, you can also use environment variables as well.
 
 
 ## Methods
-### get
-Parameters
-### search
-### expire
+### __init__(config, field_map)
+Instantiates the reJIRA class
+* <strong>Parameters</strong><br />
+<i>Config</i>: Configuration options.<br />
+<i>Field Map</i>: Field map dictionary
+* <strong>Return Values</strong><br />
+<i>None</i>
+```python
+import config, fields
+from rejira import ReJIRA
+ 
+rj = ReJIRA(config, fields.field_map)
+```
 
-
-
-
-
-
-
+### get(<i>string</i> issue_key)
+Fetches the given issue from Cache or JIRA and returns the issue as an object
+* <strong>Parameters</strong><br />
+<i>Issue Key</i>: Key of the issue you are looking for
+* <strong>Return Values</strong><br />
+<i>Issue Object</i>
+```python
+issue = rj.get("OM-1")
+print(issue.key) # "OM-1"
+print(issue.sprint.name) # "Sprint 66"
+```
+### search(<i>string</i> jql_query)
+Fetches the results of the [JQL](https://confluence.atlassian.com/jiracore/blog/2015/07/search-jira-like-a-boss-with-jql)
+and returns it as a list of ojbects 
+* <strong>Parameters</strong><br />
+<i>JQL Query</i>: Formatted JQL query
+* <strong>Return Values</strong><br />
+<i>List of issue objects</i>
+```python
+...
+issues = rj.search('project = OM and fixVersion in ("1.1.1", "1.1.0")')
+for issue in issues:
+    print(issue.project.name) # "Project Old Main"  
+```
+### expire( [<i>string</i> scope="all"|"key"])
+Expires a given cache entry or entries.
+* <strong>Parameters</strong><br />
+<i>Scope</i>: "all" (default) or the key of an issue. 
+* <strong>Return Values</strong><br />
+<i>None</i>
+```python
+...
+rj.expire()
+```
 
 # Credits
 Xnuiem - Ryan C Meinzer - https://thescrum.ninja
