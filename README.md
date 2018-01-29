@@ -32,7 +32,11 @@ for issue in issues:
 
 ## Fields
 The structure of the issue objects is set by the field configuration.  This is basically a large dictionary that lets 
-reJIRA know how to structure your issue objects.
+reJIRA know how to structure your issue objects.  This is to make things highly customizable, but it does suffer from 
+perhaps creating a bit more complexity as well.
+<br /><br />
+For now, this is required, so it is probably a lot easier to start with the example found in example/fields.py than to 
+build the file from scratch.  That file is heavily commented, so please start there.  
 
 
 
