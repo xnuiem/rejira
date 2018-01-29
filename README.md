@@ -2,6 +2,7 @@
 A very quick and easy to way to query a JIRA instance and cache the results for fast queries and searches.  JIRA's API 
 can be very slow, especially in large hosted projects.  This module attempts to solve for that by caching the results
 of queries in redis. 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ea39b6139af74d2db995b961a95c24b3)](https://www.codacy.com/app/xnuiem/rejira?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=xnuiem/rejira&amp;utm_campaign=Badge_Grade) 
 
 ## Installation
 The easy way to install is 
