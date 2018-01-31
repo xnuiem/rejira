@@ -9,7 +9,6 @@ from ddt import ddt, data
 from customassertions import CustomAssertions
 from mockFields import field_map
 import mockconfig
-from pprint import pprint
 
 cmd_folder = os.path.abspath(os.path.join(os.path.split(inspect.getfile(
     inspect.currentframe()))[0], ".."))

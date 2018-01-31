@@ -11,8 +11,6 @@ from mockFields import field_map
 import mockconfig
 import time
 
-from pprint import pprint
-
 cmd_folder = os.path.abspath(os.path.join(os.path.split(inspect.getfile(
     inspect.currentframe()))[0], ".."))
 if cmd_folder not in sys.path:
