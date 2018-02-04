@@ -1,26 +1,22 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
 version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:3.5.3
       - image: redis:2.8.19
 
     working_directory: ~/my-project
+
+    branches:
+      ignore:
+        - develop
     
     steps:
       - checkout
 
-      # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
       - run:
@@ -35,6 +31,8 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
           
+  run-tests:
+    steps:
       - run:
           name: run tests
           command: |
@@ -43,13 +41,13 @@ jobs:
             cd tests && python tests.py
             cp reports/*.xml ../test-reports
             rm -rf reports/*.xml
-     
+
       - run:
           name: run integration tests
           command: |
             . venv/bin/activate
             cd tests && python integrationtests.py
-            cp reports/*.xml ../test-reports            
+            cp reports/*.xml ../test-reports
 
       - run:
           name: run coverage
@@ -68,4 +66,37 @@ jobs:
           destination: tr1
 
       - store_test_results:
-          path: test-reports/   
+          path: test-reports/
+
+
+  deploy-pypi:
+    docker:
+      - image: circleci/python:3.5.3
+
+    working_directory: ~/my-project
+
+    steps:
+      - run:
+          name: Deploy to PyPi
+          command: |
+            . venv/bin/activate
+            setup.sh
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - run-tests:
+          requires:
+            -build
+          filters:
+            branches:
+              only: master
+      - deploy-pypi:
+          requires:
+            - build
+          filters:
+            branches:
+              only: release
+
