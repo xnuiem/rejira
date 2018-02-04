@@ -5,11 +5,10 @@ of queries in redis.
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ea39b6139af74d2db995b961a95c24b3)](https://www.codacy.com/app/xnuiem/rejira?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=xnuiem/rejira&amp;utm_campaign=Badge_Grade) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/ea39b6139af74d2db995b961a95c24b3)](https://www.codacy.com/app/xnuiem/rejira?utm_source=github.com&utm_medium=referral&utm_content=xnuiem/rejira&utm_campaign=Badge_Coverage) 
 
 # Table of Contents
-* [Installation][Installation]
-* [Methods][Methods]
+* [Installation](#Installation)
 
 # Usage
-## Installation
+<a name="Installation"></a>## Installation
 The easy way to install is 
 ```text
 pip install rejira
