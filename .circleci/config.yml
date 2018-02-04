@@ -82,21 +82,4 @@ jobs:
             . venv/bin/activate
             setup.sh
 
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build
-      - run-tests:
-          requires:
-            -build
-          filters:
-            branches:
-              only: master
-      - deploy-pypi:
-          requires:
-            - build
-          filters:
-            branches:
-              only: release
 
