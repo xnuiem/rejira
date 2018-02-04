@@ -5,16 +5,23 @@ of queries in redis.
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ea39b6139af74d2db995b961a95c24b3)](https://www.codacy.com/app/xnuiem/rejira?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=xnuiem/rejira&amp;utm_campaign=Badge_Grade) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/ea39b6139af74d2db995b961a95c24b3)](https://www.codacy.com/app/xnuiem/rejira?utm_source=github.com&utm_medium=referral&utm_content=xnuiem/rejira&utm_campaign=Badge_Coverage) 
 
 # Table of Contents
-* [Installation](#Installation)
+* [Installation](#installation)
+* [Quick Start](#quick-start)
+* [Fields](#fields)
+* [Configuration Options](#configuration-options)
+* [Methods](#methods)
+* [Credits](#credits)
+* [License](#license)
+
 
 # Usage
-<a name="Installation"></a>## Installation
+## <a name="installation"></a>Installation
 The easy way to install is 
 ```text
 pip install rejira
 ```
 
-## Quick Start
+## <a name="quick-start"></a>Quick Start
 ```python
 import config, fields
 from rejira import ReJIRA
@@ -34,7 +41,7 @@ for issue in issues:
     print(issue.project.name) # "Project Old Main"  
 ```
 
-## Fields
+## <a name="fields"></a>Fields
 The structure of the issue objects is set by the field configuration.  This is basically a large dictionary that lets 
 reJIRA know how to structure your issue objects.  This is to make things highly customizable, but it does suffer from 
 perhaps creating a bit more complexity as well.
@@ -44,7 +51,7 @@ build the file from scratch.  That file is heavily commented, so please start th
 
 
 
-## Configuration Options
+## <a name="configuration-options"></a>Configuration Options
 ReJIRA uses environment variables for most of its configuration.  But there are some to be found in the configuration 
 file as well.
 
@@ -128,7 +135,7 @@ proxies = { 'https://user:password@proxy.somewhere.com:8888', \
 For proxies, you can also use environment variables as well.
 
 
-## Methods
+## <a name="methods"></a>Methods
 ### __init__(config, field_map)
 Instantiates the reJIRA class
 * <strong>Parameters</strong><br />
@@ -178,10 +185,10 @@ Expires a given cache entry or entries.
 rj.expire()
 ```
 
-# Credits
+# <a name="credits"></a>Credits
 Xnuiem - Ryan C Meinzer - https://thescrum.ninja
 
-# License
+# <a name="license"></a>License
 Copyright 2018 XM Tek LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
