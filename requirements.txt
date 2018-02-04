@@ -3,4 +3,6 @@ requests
 coverage
 ddt
 xmlrunner
+twine
+wheel
 -e git+https://github.com/codacy/python-codacy-coverage.git#egg=python-codacy-coverage
