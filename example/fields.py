@@ -59,8 +59,8 @@ field_map = {
         }
     },
     "dates": { #creates an object of date objects.  These are python date objects so things like
-        # issue.dates.created.hour work  
-        "created": None,  # issue.dates.created  
+        # issue.dates.created.hour work
+        "created": None,  # issue.dates.created
         "lastViewed": "viewed",
         "resolutiondate": "resolved",
         "updated": None,

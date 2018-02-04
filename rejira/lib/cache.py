@@ -6,7 +6,6 @@ import json
 import hashlib
 
 
-
 class Cache:
 
     def __init__(self, config, logger, field_map):
@@ -15,7 +14,7 @@ class Cache:
         self.logger = logger
         self.field_map = field_map
         self.jira_url = self.config.jira_options['server'] + 'rest/' + self.config.jira_options['rest_path'] + '/' + \
-            self.config.jira_options['rest_api_version'] + self.config.jira_options['context_path']
+                        self.config.jira_options['rest_api_version'] + self.config.jira_options['context_path']
 
     def expire_all(self):
         self.logger.warning('Flushing all Keys')
@@ -62,7 +61,7 @@ class Cache:
         else:
             request_url = self.jira_url + 'issue/' + key
             req = session.get(request_url)
-            
+
         session.close()
         if req.status_code == 401:
             raise InvalidUsage('Authentication to JIRA failed', self.logger)
