@@ -93,6 +93,7 @@ jobs:
           name: Deploy to PyPi
           command: |
             . venv/bin/activate
+            chmod +x setup.sh
             ./setup.sh
 
 workflows:
@@ -100,9 +101,18 @@ workflows:
   build-and-deploy:
     jobs:
       - build
+
+      - hold:
+          type: approval
+          requires:
+           - build
+          filters:
+            branches:
+              only: release
+
       - deploy-pypi:
           requires:
-            - build
+            - hold
           filters:
             branches:
               only: release
