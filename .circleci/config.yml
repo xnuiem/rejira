@@ -7,10 +7,6 @@ jobs:
 
     working_directory: ~/my-project
 
-    branches:
-      ignore:
-        - develop
-    
     steps:
       - checkout
 
