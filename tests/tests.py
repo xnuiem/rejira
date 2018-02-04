@@ -57,7 +57,7 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
         config.cache_host = os.getenv('REJIRA_CACHE_HOST', 'localhost')
         config.cache_port = os.getenv('REJIRA_CACHE_PORT', 6379)
         config.cache_db = os.getenv('REJIRA_CACHE_DB', 0)
-        config.cache_on = str_to_bool(os.getenv('REJIRA_CACHE_ON', True))
+        config.cache_on = str_to_bool(os.getenv('REJIRA_CACHE_ON', 'True'))
         config.cache_expire = os.getenv('REJIRA_CACHE_EXPIRE', 3600)
         config.jira_user = os.getenv('REJIRA_JIRA_USER', '')
         config.jira_pass = os.getenv('REJIRA_JIRA_PASS', '')

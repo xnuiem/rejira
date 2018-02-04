@@ -42,7 +42,7 @@ class ReJIRA:
         self.config.cache_host = os.getenv('REJIRA_CACHE_HOST', 'localhost')
         self.config.cache_port = os.getenv('REJIRA_CACHE_PORT', 6379)
         self.config.cache_db = os.getenv('REJIRA_CACHE_DB', 0)
-        self.config.cache_on = str_to_bool(os.getenv('REJIRA_CACHE_ON', True))
+        self.config.cache_on = str_to_bool(os.getenv('REJIRA_CACHE_ON', 'True'))
         self.config.cache_expire = os.getenv('REJIRA_CACHE_EXPIRE', 3600)
         self.config.jira_user = os.getenv('REJIRA_JIRA_USER', '')
         self.config.jira_pass = os.getenv('REJIRA_JIRA_PASS', '')
