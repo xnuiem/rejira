@@ -8,8 +8,8 @@ field_map = {
     "resolution": None,
     "sprint": True,
     "assignee": { # this creates a sub-object.  issue.assignee
-        "fields": { # this tells it, that in the assignee json, which has lots of fields, to only use these fields 
-            "emailAddress": "email", # this changes the name of the field to "email".  If this were None, it would come 
+        "fields": { # this tells it, that in the assignee json, which has lots of fields, to only use these fields
+            "emailAddress": "email", # this changes the name of the field to "email".  If this were None, it would come
             # back as assignee.emailAddress, but like this, it will come back assignee.email
             "displayName": None,
             "name": None
@@ -30,10 +30,10 @@ field_map = {
         }
     },
     "status": {
-        "fields": { # again this is to ignore all fields in the response not listed here.  Since there is only a single 
-            # field listed, the response is a little different.  It will come back as issue.status instead of 
-            # issue.status.name .  If there were more than one field, it would come back as the sub objects, but in 
-            # this case, with only a single field listed in "fields", it just maps the value up to the parent.  
+        "fields": { # again this is to ignore all fields in the response not listed here.  Since there is only a single
+            # field listed, the response is a little different.  It will come back as issue.status instead of
+            # issue.status.name .  If there were more than one field, it would come back as the sub objects, but in
+            # this case, with only a single field listed in "fields", it just maps the value up to the parent.
             "name": None # this would be issue.status so print(issue.status) = "Pending" (NOT issue.status.name)
         }
     },
@@ -58,7 +58,7 @@ field_map = {
             "votes": None
         }
     },
-    "dates": { #creates an object of date objects.  These are python date objects so things like 
+    "dates": { #creates an object of date objects.  These are python date objects so things like
         # issue.dates.created.hour work  
         "created": None,  # issue.dates.created  
         "lastViewed": "viewed",
@@ -80,10 +80,10 @@ field_map = {
     },
     "custom": { # this one is a bit interesting
         "fields": {
-            "10008": "epic", # renames customfield_10008 to epic.  issue.custom.epic 
+            "10008": "epic", # renames customfield_10008 to epic.  issue.custom.epic
             "10025": "checkbox"
         },
-        "all": True # return all custom fields, regardless if they are listed in "fields".  they will return as 
+        "all": True # return all custom fields, regardless if they are listed in "fields".  they will return as
         # customfield_<ID>.  So, issue.custom.10001 = 'Pending'
     },
     "comments": { # comments is a list of objects with more objects in it
