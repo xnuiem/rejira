@@ -93,7 +93,7 @@ jobs:
           name: Deploy to PyPi
           command: |
             . venv/bin/activate
-            setup.sh
+            ./setup.sh
 
 workflows:
   version: 2
