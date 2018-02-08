@@ -98,5 +98,17 @@ field_map = {
                 }
             }
         }
+    },
+    "attachments": {
+        "fields": {
+            "content": None,
+            "author": {
+                "fields": {
+                    "displayName": None,
+                    "emailAddress": "email",
+                    "name": None
+                }
+            }
+        }
     }
 }

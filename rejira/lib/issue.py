@@ -38,6 +38,8 @@ class Issue:
                 setattr(self, "dates", self.handle_dates(json, value))
             elif key is "comments":
                 setattr(self, "comments", self.handle_comments(json, value))
+            elif key is "attachments":
+                setattr(self, "attachments", self.handle_attachments(json, value))
             elif key is "sprint" and value is True:
                 setattr(self, "sprint", self.handle_sprint(json["fields"]))
             elif key is "custom":
@@ -66,6 +68,30 @@ class Issue:
                 setattr(self, key, sub_json[key])
         self.close()
         return self
+
+    def handle_attachments(self, json, fields):
+        self.logger.info('Handle Attachments')
+        self.logger.debug('fields: %s, json: %s', fields, json)
+        attachments = []
+
+        for attachment in json["fields"]["attachment"]:
+            self.logger.debug('Attachment: %s', attachment)
+            attachment_obj = type("attachment", (), {})
+            for field_key, field_value in fields["fields"].items():
+                name = field_key
+                self.logger.debug("Field Key: %s", name)
+                if isinstance(field_value, dict):
+                    if attachment[field_key] is not None:
+                        sub_obj = self.find_sub_value(attachment[field_key], field_value, type(name, (), {}))
+                        setattr(attachment_obj, name, sub_obj)
+                else:
+                    if field_value is not None:
+                        name = field_value
+                    setattr(attachment_obj, name, attachment[field_key])
+
+            attachments.append(attachment_obj)
+            del attachment_obj
+        return attachments
 
     def handle_sprint(self, json):
         self.logger.info('Handle Sprint')
