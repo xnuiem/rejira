@@ -10,7 +10,7 @@ setup(
     author='Xnuiem',
     author_email='ryan.meinzer@xmtek.net',
     license='Apache',
-    version='0.0.3.dev1',
+    version='0.0.4.dev1',
     packages=['rejira'],
     install_requires=[
         'redis',
