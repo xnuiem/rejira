@@ -100,23 +100,23 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
         issue = self.create_issue().close()
         self.assertAttrNotExists(issue, "config")
 
-    @data('mock-req-1.txt', 'mock-req-3.txt')
+    @data('mock-req-1.txt', 'mock-req-1.txt')
     def test_issue_handle_sprint_name(self, file_name):
         req = self.get_req(file_name)
         sprint_obj = self.create_issue().handle_sprint(req["fields"])
-        self.assertEqual(sprint_obj.name, 'OM Sprint 1')
+        self.assertEqual(sprint_obj.name, 'RT Sprint 1')
 
-    @data('mock-req-2.txt')
+    @data('mock-req-3.txt')
     def test_issue_handle_sprint_none(self, file_name):
         req = self.get_req(file_name)
         sprint_obj = self.create_issue().handle_sprint(req["fields"])
         self.assertIsNone(sprint_obj)
 
-    @data('mock-req-1.txt', 'mock-req-3.txt')
+    @data('mock-req-1.txt', 'mock-req-2.txt')
     def test_issue_handle_sprint_complete_date(self, file_name):
         req = self.get_req(file_name)
         sprint_obj = self.create_issue().handle_sprint(req["fields"])
-        self.assertEqual(sprint_obj.completeDate, '<null>')
+        self.assertEqual(sprint_obj.completeDate, '2018-02-22T10:03:20.400Z')
 
     @data('mock-req-1.txt')
     def test_issue_handle_simple_list(self, file_name):
@@ -133,7 +133,7 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
                                                                'id': None}})
         self.assertIsList(ret_list)
 
-    @data('mock-req-1.txt')
+    @data('mock-req-2.txt')
     def test_issue_handle_complex_list_is_list_of_objects(self, file_name):
         req = self.get_req(file_name)
         ret_list = self.create_issue().handle_list(req["fields"]["components"],
@@ -157,6 +157,8 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
                                                                'id': None}})
         self.assertEqual(ret_list[0].name, 'comp1')
 
+
+
     @data('mock-req-1.txt')
     def test_issue_handle_dict_display_name(self, file_name):
         req = self.get_req(file_name)
@@ -173,7 +175,7 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
     def test_issue_handle_custom_epic(self, file_name):
         req = self.get_req(file_name)
         obj = self.create_issue().handle_custom(req, field_map["custom"])
-        self.assertEqual(obj.epic, 'OM-2')
+        self.assertEqual(obj.epic, 'RJTEST-1')
 
     @data('mock-req-1.txt')
     def test_issue_handle_custom_none(self, file_name):
@@ -181,11 +183,11 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
         obj = self.create_issue().handle_custom(req, field_map["custom"])
         self.assertIsNone(obj.customfield_10024)
 
-    @data('mock-req-1.txt')
+    @data('mock-req-4.txt')
     def test_issue_handle_custom_string(self, file_name):
         req = self.get_req(file_name)
         obj = self.create_issue().handle_custom(req, field_map["custom"])
-        self.assertEqual(obj.customfield_10026, 'some string')
+        self.assertEqual(obj.customfield_10026, 'Some String')
 
     @data('mock-req-1.txt')
     def test_issue_handle_custom_checkbox(self, file_name):
@@ -193,13 +195,13 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
         obj = self.create_issue().handle_custom(req, field_map["custom"])
         self.assertIsNone(obj.checkbox)
 
-    @data('mock-req-1.txt')
+    @data('mock-req-4.txt')
     def test_issue_handle_custom_list(self, file_name):
         req = self.get_req(file_name)
         obj = self.create_issue().handle_custom(req, field_map["custom"])
         self.assertIsList(obj.customfield_10027)
 
-    @data('mock-req-1.txt')
+    @data('mock-req-4.txt')
     def test_issue_handle_custom_list_object_value(self, file_name):
         req = self.get_req(file_name)
         obj = self.create_issue().handle_custom(req, field_map["custom"])
@@ -215,30 +217,30 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
     def test_issue_handle_dates_create_year_is_2017(self, file_name):
         req = self.get_req(file_name)
         obj = self.create_issue().handle_dates(req, field_map["dates"])
-        self.assertEqual(obj.created.year, 2017)
+        self.assertEqual(obj.created.year, 2018)
 
-    @data('mock-req-1.txt')
+    @data('mock-req-2.txt')
     def test_issue_handle_comments_number_of_comments(self, file_name):
         req = self.get_req(file_name)
         comments = self.create_issue().handle_comments(req,
                                                        field_map["comments"])
         self.assertEqual(len(comments), 2)
 
-    @data('mock-req-1.txt')
+    @data('mock-req-2.txt')
     def test_issue_handle_comments_body_content(self, file_name):
         req = self.get_req(file_name)
         comments = self.create_issue().handle_comments(req,
                                                        field_map["comments"])
-        self.assertEqual(comments[0].body, 'Comment 1')
+        self.assertEqual(comments[0].body, 'Adding a comment')
 
-    @data('mock-req-1.txt')
+    @data('mock-req-2.txt')
     def test_issue_handle_comments_updated_not_exists(self, file_name):
         req = self.get_req(file_name)
         comments = self.create_issue().handle_comments(req,
                                                        field_map["comments"])
         self.assertAttrNotExists(comments[0], 'updated')
 
-    @data('mock-req-1.txt')
+    @data('mock-req-2.txt')
     def test_issue_handle_comments_author_display_name(self, file_name):
         req = self.get_req(file_name)
         comments = self.create_issue().handle_comments(req,
@@ -264,7 +266,7 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
         req = self.get_req(file_name)
         issues = Cache(self.config, self.logging, field_map).create_issue_list(
             req)
-        self.assertEqual(len(issues), 3)
+        self.assertEqual(len(issues), 8)
 
     @data('mock-query-1.txt')
     def test_cache_create_issue_list_3rd_issue_no_sprint(self, file_name):
@@ -278,7 +280,14 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
         req = self.get_req(file_name)
         issues = Cache(self.config, self.logging, field_map).create_issue_list(
             req)
-        self.assertEqual(issues[1].sprint.name, 'OM Sprint 1')
+        self.assertEqual(issues[1].sprint.name, 'RT Sprint 1')
+
+    @data('mock-query-1.txt')
+    def test_cache_create_issue_list_1st_issue_sprint(self, file_name):
+        req = self.get_req(file_name)
+        issues = Cache(self.config, self.logging, field_map).create_issue_list(
+            req)
+        self.assertEqual(issues[0].sprint.name, 'RT Sprint 2')
 
     @data('mock-query-1.txt')
     def test_cache_create_issue_list_comment_author_display_name(self,

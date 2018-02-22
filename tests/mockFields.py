@@ -102,5 +102,16 @@ field_map = {
                 }
             }
         }
+    },
+    "subtasks": {
+        "fields": {
+            "key": None,
+            "priority": "name",
+            "status": {
+                "name": None,
+                "self": None
+            },
+            "summary": None
+        }
     }
 }

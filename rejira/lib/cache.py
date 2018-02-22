@@ -23,12 +23,14 @@ class Cache:
 
     def fetch_issue(self, key):
         req = self.fetch_req(key)
+        self.write_req_to_file(req)
         issue = Issue(self.config, self.logger).create_object(req, self.field_map)
         return issue
 
     def fetch_query(self, query):
         hash_key = hashlib.sha256(query.encode('utf-8')).hexdigest()
         req = self.fetch_req(hash_key, query)
+        self.write_req_to_file(req)
         issues = self.create_issue_list(req)
         return issues
 
@@ -83,6 +85,6 @@ class Cache:
     def write_req_to_file(self, req):
         if self.config.create_test_file is True:
             self.logger.debug('Writing to File')
-            with open("../tests/mock-req-1.txt", 'w') as file:
+            with open("../tests/mock-query-1.txt", 'w') as file:
                 file.write(json.dumps(req))
                 file.close()
