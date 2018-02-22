@@ -91,14 +91,14 @@ class ReJIRAIntegrationTest(unittest.TestCase, CustomAssertions):
         self.config.cache_on = False
         issues = Cache(self.config, self.logging, field_map).fetch_query(
             "project = 'RJTEST'")
-        self.assertEqual(len(issues), 4)
+        self.assertEqual(len(issues), 8)
         self.setup_config()
 
     def test_jira_fetch_query_issue_value(self):
         self.config.cache_on = False
         issues = Cache(self.config, self.logging, field_map).fetch_query(
             "project = 'RJTEST'")
-        self.assertEqual(issues[2].key, "RJTEST-2")
+        self.assertEqual(issues[2].key, "RJTEST-6")
         self.setup_config()
 
     @data("RJTEST-1")

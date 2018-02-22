@@ -90,5 +90,28 @@ field_map = {
                 }
             }
         }
+    },
+    "attachments": {
+        "fields": {
+            "content": None,
+            "author": {
+                "fields": {
+                    "displayName": None,
+                    "emailAddress": "email",
+                    "name": None
+                }
+            }
+        }
+    },
+    "subtasks": {
+        "fields": {
+            "key": None,
+            "priority": "name",
+            "status": {
+                "name": None,
+                "self": None
+            },
+            "summary": None
+        }
     }
 }

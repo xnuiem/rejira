@@ -163,7 +163,6 @@ class Issue:
         return obj
 
     def handle_list(self, json, fields):
-
         self.logger.info('Handle List: %s', fields )
 
         ret_list = []
@@ -174,15 +173,22 @@ class Issue:
                 if len(fields["fields"]) > 1:
                     sub_obj = type("list", (), {})
                     for y in fields["fields"]:
-                        setattr(sub_obj, y, x[y])
+                        if y in x:
+                            setattr(sub_obj, y, x[y])
+                        elif y in fields["fields"]:
+                            if fields["fields"][y] is None:
+                                setattr(sub_obj, y, x["fields"][y])
+                            elif isinstance(fields["fields"][y], dict):
+                                sub_sub_obj = type("list", (), {})
+                                for j in fields["fields"][y]:
+                                    setattr(sub_sub_obj, j, x["fields"][y][j])
+                                setattr(sub_obj, y, sub_sub_obj)
+                            elif fields["fields"][y] in x["fields"][y]:
+                                setattr(sub_obj, y, x["fields"][y][fields["fields"][y]])
                     ret_list.append(sub_obj)
                 else:
                     for y in fields["fields"]:
                         ret_list.append(x[y])
-            # elif isinstance(x, list):  # list of lists
-            #    pass
-            # elif isinstance(x, str):  # list of strings
-            #    pass
         return ret_list
 
     def handle_comments(self, json, fields):
