@@ -58,11 +58,11 @@ class Cache:
                 "startAt": 0,
                 "fields": ['*all']
             }
-            req = session.post(request_url, '', data)
+            req = session.post(request_url, '', data, verify=self.config.verify_host)
 
         else:
             request_url = self.jira_url + 'issue/' + key
-            req = session.get(request_url)
+            req = session.get(request_url, verify=self.config.verify_host)
 
         session.close()
         if req.status_code == 401:

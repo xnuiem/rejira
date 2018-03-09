@@ -49,6 +49,7 @@ class ReJIRA:
         self.config.jira_options["server"] = os.getenv('REJIRA_JIRA_SERVER', '')
         self.config.logging_level = os.getenv('REJIRA_LOGGING_LEVEL', 'WARN')
         self.config.logging_file = os.getenv('REJIRA_LOGGING_FILE', '')
+        self.config.verify_host = str_to_bool(os.getenv('REJIRA_VERIFY_HOST', 'True'))
         http_proxy = os.getenv('REJIRA_HTTP_PROXY', None)
         https_proxy = os.getenv('REJIRA_HTTPS_PROXY', None)
 

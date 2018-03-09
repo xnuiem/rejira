@@ -88,6 +88,9 @@ Logging Level (<strong>WARN</strong>)
 #### REJIRA_LOGGING_FILE
 The file to write logs to.  Defaults to STDOUT.  If this is not blank, it will write the logs to this file. (<strong>blank</strong>)
 
+#### REJIRA_VERIFY_HOST
+Verify SSL Host Certificate. (<strong>True</strong>)
+
 #### REJIRA_HTTP_PROXY
 HTTP Proxy. Can be domain or host. (<strong>None</strong>)(e.g. http://username:password@proxy.host.com:8888)
 

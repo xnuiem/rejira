@@ -64,6 +64,7 @@ class ReJIRAUnitTest(unittest.TestCase, CustomAssertions):
         config.jira_options["server"] = os.getenv('REJIRA_JIRA_SERVER', '')
         config.logging_level = os.getenv('REJIRA_LOGGING_LEVEL', 'ERROR')
         config.logging_file = os.getenv('REJIRA_LOGGING_FILE', '')
+        config.verify_host = str_to_bool(os.getenv('REJIRA_VERIFY_HOST', 'True'))
         http_proxy = os.getenv('REJIRA_HTTP_PROXY', None)
         https_proxy = os.getenv('REJIRA_HTTPS_PROXY', None)
 
