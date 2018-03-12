@@ -24,7 +24,10 @@ class Cache:
     def fetch_issue(self, key):
         req = self.fetch_req(key)
         self.write_req_to_file(req)
-        issue = Issue(self.config, self.logger).create_object(req, self.field_map)
+        if self.field_map == 'raw':
+            issue = Issue(self.config, self.logger).create_raw_object(req)
+        else:
+            issue = Issue(self.config, self.logger).create_object(req, self.field_map)
         return issue
 
     def fetch_query(self, query):
@@ -37,7 +40,10 @@ class Cache:
     def create_issue_list(self, req):
         issues = []
         for x in req["issues"]:
-            issue = Issue(self.config, self.logger).create_object(x, self.field_map)
+            if self.field_map == 'raw':
+                issue = Issue(self.config, self.logger).create_raw_object(req)
+            else:
+                issue = Issue(self.config, self.logger).create_object(x, self.field_map)
             issues.append(issue)
         return issues
 

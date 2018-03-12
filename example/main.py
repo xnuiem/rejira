@@ -10,10 +10,10 @@ if cmd_folder not in sys.path:
 from rejira import ReJIRA
 
 
-rj = ReJIRA(config, fields.field_map)
+rj = ReJIRA(config)
 
-issue = rj.get("RJTEST-8")
-pprint(vars(issue))
+#issue = rj.get("RJTEST-8")
+#pprint(vars(issue))
 
 #results = rj.search("project = RJTEST order by lastViewed DESC")
 #for x in results:

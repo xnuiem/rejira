@@ -5,9 +5,10 @@ from pprint import pprint
 
 from rejira.lib.cache import Cache
 
+
 class ReJIRA:
 
-    def __init__(self, config, field_map):
+    def __init__(self, config, field_map=None):
         self.config = config
         self.setup_config()
 
@@ -26,7 +27,14 @@ class ReJIRA:
         self.logger.debug('===========================')
         self.logger.debug('Configuration')
         self.logger.debug('LOGGING level:%s, file:%s', self.config.logging_level, self.config.logging_file)
-        self.logger.debug('CACHE host:%s, port:%s, db:%s, expire:%s, toggle:%s', self.config.cache_host, self.config.cache_port,
+        if field_map is None and config.map_raw is not True:
+            self.logger.exception('Map Missing and Map Raw is not True')
+            exit(1)
+        elif field_map is None:
+            field_map = 'raw'
+
+        self.logger.debug('CACHE host:%s, port:%s, db:%s, expire:%s, toggle:%s', self.config.cache_host,
+                          self.config.cache_port,
                           self.config.cache_db, self.config.cache_expire, self.config.cache_on)
 
         self.logger.debug('MAPPING fields:%s, raw:%s', self.config.map_fields, self.config.map_raw)
@@ -63,7 +71,6 @@ class ReJIRA:
         for handler in self.logger.handlers:
             handler.close()
             self.logger.removeHandler(handler)
-
 
     def get(self, key):
         """Fetches a single issue, returning it as a dict.

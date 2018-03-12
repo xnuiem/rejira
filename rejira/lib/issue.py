@@ -1,6 +1,8 @@
 import datetime
 from rejira.lib.error import InvalidUsage
 
+from pprint import pprint
+
 
 class Issue:
 
@@ -16,6 +18,42 @@ class Issue:
             else:
                 setattr(obj, value, json[key])
         return obj
+
+    def create_raw_object(self, json):
+        self.logger.debug('Raw Object Create')
+
+        from pprint import pprint
+        for key, value in json.items():
+            if isinstance(value, str):
+                setattr(self, key, value)
+            elif isinstance(value, list):
+                setattr(self, key, self.handle_raw_list(value))
+            elif isinstance(value, dict):
+                setattr(self, key, self.handle_raw_dict(value))
+
+        self.close()
+        return self
+
+    def handle_raw_list(self, value):
+        ret_list = []
+
+        return ret_list
+
+    def handle_raw_dict(self, json):
+
+        obj = type("values", (), {})
+        for key, value in json.items():
+            if isinstance(value, str):
+                setattr(obj, key, value)
+            elif isinstance(value, list):
+                setattr(obj, key, self.handle_raw_list(value))
+            elif isinstance(value, dict):
+                setattr(obj, key, self.handle_raw_dict(value))
+
+        return obj
+
+
+
 
     def create_object(self, json, fields):
 
